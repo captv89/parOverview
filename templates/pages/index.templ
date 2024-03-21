@@ -13,22 +13,20 @@ css styledTextStyles() {
 }
 
 // BodyContent defines HTML content.
-templ IndexBodyContent(h1, text string) {
+templ IndexBodyContent(mapBody templ.Component) {
 	<div id="app" class="flex flex-col h-screen justify-between">
 		<div class="navbar bg-base-100">
-			<a class="btn btn-ghost text-xl">PAR Reports</a>
+			<a class="btn btn-ghost text-xl">Maritime Piracy & Robbery Reports</a>
 		</div>
 		<div id="main" class="grow">
-			<span id="loader" class="htmx-indicator absolute top-1/2 left-1/2">
+			<span id="loader" class="htmx-indicator absolute top-1/2 left-1/2 z-50">
 				<img src="/static/images/puff.svg" class="w-16 h-16" alt="Loading"/>
 			</span>
-			<div id="content" class="grow h-auto mb-20 overflow-auto">
-				<div class="h-full">
-					<div id="map" class="w-full h-full"></div>
-				</div>
+			<div id="content" class="grow h-full mb-20">
+				@mapBody
 			</div>
 		</div>
-		<div class="btm-nav">
+		<div class="btm-nav z-50">
 			<button
 				id="table-button"
 				hx-get="/table"

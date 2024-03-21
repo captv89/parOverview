@@ -16,3 +16,20 @@ type ParReport struct {
 	CoastalStateActionTaken string `json:"Coastal State Action Taken"`
 	MSCCirc                 int    `json:"MSC/Circ"`
 }
+
+type GeoParReport struct {
+	Date                    string  `json:"Date"`
+	ShipName                string  `json:"ShipName"`
+	ShipType                string  `json:"ShipType"`
+	IMONo                   string  `json:"IMO"`
+	Area                    string  `json:"Area"`
+	Latitude                float64 `json:"Latitude"`
+	Longitude               float64 `json:"Longitude"`
+	IncidentDetails         string  `json:"IncidentDetails"`
+	ConsequencesForCrewEtc  string  `json:"Consequences"`
+	ActionTakenByMasterCrew string  `json:"ActionTakenByShip"`
+	Reported                bool    `json:"Reported"`
+	ReportedTo              string  `json:"ReportedTo"`
+	CoastalStateActionTaken string  `json:"CoastalStateActionTaken"`
+	MSCCirc                 int     `json:"MSCirc"`
+}

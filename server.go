@@ -42,8 +42,14 @@ func runServer() error {
 	// Handle index page view.
 	e.GET("/", indexViewHandler)
 
-	// Handle index page view.
+	// Handle table page view.
 	e.GET("/table", tabularViewHandler)
+
+	// Handle map page view.
+	e.GET("/map", mapViewHandler)
+
+	// Handle chart page view.
+	e.GET("/chart", chartViewHandler)
 
 	// Handle API endpoints.
 	e.GET("/api/hello-world", showContentAPIHandler)

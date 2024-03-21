@@ -20,47 +20,43 @@ func indexViewHandler(c echo.Context) error {
 
 	// Define template meta tags.
 	metaTags := pages.MetaTags(
-		"gowebly, htmx example page, go with htmx",               // define meta keywords
-		"Welcome to example! You're here because it worked out.", // define meta description
+		"piracy, robbery, maritime, hostage, ship, vessel, armed, attack, overview",
+		"The piracy and armed robbery overview sourced from the IMB Piracy Reporting Center.",
 	)
 
 	// Define template body content.
-	bodyContent := pages.IndexBodyContent(
-		"Welcome to example!",                // define h1 text
-		"You're here because it worked out.", // define p text
-	)
+	mapComponent := pages.MapComponent(data.GeoParData)
+	bodyContent := pages.IndexBodyContent(mapComponent)
 
 	// Define template layout for index page.
 	indexTemplate := templates.Layout(
-		"Welcome to example!", // define title text
-		metaTags,              // define meta tags
-		bodyContent,           // define body content
+		"Maritime Piracy & Robbery Overview", // define title text
+		metaTags,                             // define meta tags
+		bodyContent,
 	)
 
 	return htmx.NewResponse().RenderTempl(c.Request().Context(), c.Response().Writer, indexTemplate)
 }
 
-// tabularViewHandler handles a view for the index page.
+// tabularViewHandler handles a view for the tabular page.
 func tabularViewHandler(c echo.Context) error {
 	// Set the response content type to HTML.
 	c.Response().Header().Set(echo.HeaderContentType, echo.MIMETextHTML)
 
 	// Define template meta tags.
 	metaTags := pages.MetaTags(
-		"gowebly, htmx example page, go with htmx",               // define meta keywords
-		"Welcome to example! You're here because it worked out.", // define meta description
+		"dataset, piracy, robbery, maritime, hostage, ship, vessel, armed, attack, overview",
+		"The piracy and armed robbery overview dataset of maritime incidents.",
 	)
 
-	d := data.LoadData("data/sample.json")
-
 	// Define template body content.
-	bodyContent := pages.TabularBody(d)
+	bodyContent := pages.TabularBody(data.ParData)
 
 	// Define template layout for index page.
 	indexTemplate := templates.Layout(
-		"Tabular!",  // define title text
-		metaTags,    // define meta tags
-		bodyContent, // define body content
+		"Maritime Piracy & Robbery Dataset", // define title text
+		metaTags,                            // define meta tags
+		bodyContent,
 	)
 
 	// Sleep for 2 seconds to simulate a slow server response.
@@ -69,6 +65,63 @@ func tabularViewHandler(c echo.Context) error {
 	return htmx.NewResponse().RenderTempl(c.Request().Context(), c.Response().Writer, indexTemplate)
 }
 
+// mapViewHandler handles a view for the map page.
+func mapViewHandler(c echo.Context) error {
+	// Set the response content type to HTML.
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMETextHTML)
+
+	// Define template meta tags.
+	metaTags := pages.MetaTags(
+		"map, maritime piracy, armed robbery, overview",
+		"The piracy and armed robbery overview map of maritime incidents.",
+	)
+
+	// Define template body content.
+	bodyContent := pages.MapComponent(data.GeoParData)
+
+	// Define template layout for index page.
+	indexTemplate := templates.Layout(
+		"Maritime Piracy & Robbery Overview", // define title text
+		metaTags,                             // define meta tags
+		bodyContent,                          // define body content
+	)
+
+	// Sleep for 2 seconds to simulate a slow server response.
+	time.Sleep(2 * time.Second)
+
+	return htmx.NewResponse().RenderTempl(c.Request().Context(), c.Response().Writer, indexTemplate)
+}
+
+// chartViewHandler handles a view for the map page.
+func chartViewHandler(c echo.Context) error {
+	// Set the response content type to HTML.
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMETextHTML)
+
+	// Define template meta tags.
+	metaTags := pages.MetaTags(
+		"chart, maritime piracy, armed robbery, overview, trends",
+		"The piracy and armed robbery trends over time of maritime incidents.",
+	)
+
+	// TODO: Load Incident data with analytics.
+
+	// Define template body content.
+	bodyContent := pages.ChartComponent()
+
+	// Define template layout for index page.
+	indexTemplate := templates.Layout(
+		"Maritime Piracy & Robbery Trend", // define title text
+		metaTags,                          // define meta tags
+		bodyContent,                       // define body content
+	)
+
+	// Sleep for 2 seconds to simulate a slow server response.
+	time.Sleep(2 * time.Second)
+
+	return htmx.NewResponse().RenderTempl(c.Request().Context(), c.Response().Writer, indexTemplate)
+}
+
+// API handlers
 // showContentAPIHandler handles an API endpoint to show content.
 func showContentAPIHandler(c echo.Context) error {
 	// Check, if the current request has a 'HX-Request' header.

@@ -8,7 +8,6 @@ templ Layout(title string, metaTags, bodyContent templ.Component) {
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
 			// <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:*; img-src 'self' data:*;"/>
-			<meta name="theme-color" content="#FEFEF5"/>
 			<title>{ title }</title>
 			@metaTags
 			<link rel="dns-prefetch" href="//fonts.googleapis.com"/>
@@ -22,10 +21,11 @@ templ Layout(title string, metaTags, bodyContent templ.Component) {
 			<link rel="icon" href="/static/favicon.png" sizes="any"/>
 			<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
 			<link href="/static/styles.css" rel="stylesheet"/>
-			<link
-				rel="stylesheet"
-				href="/static/leaflet.css"
-			/>
+			<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+			<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+			<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+			<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+			<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 		</head>
 		<body>
 			@bodyContent

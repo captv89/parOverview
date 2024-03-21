@@ -8,16 +8,25 @@ window.Alpine = Alpine
 // Start Alpine.
 Alpine.start()
 
-// Leaflet
-import L from 'leaflet'
+// Bottom Nav Bar Active State
+const tableButton = document.getElementById('table-button')
+const mapButton = document.getElementById('map-button')
+const chartButton = document.getElementById('chart-button')
 
-const map = L.map('map', {
-  center: L.latLng(49.2125578, 16.62662018),
-  zoom: 14,
+tableButton.addEventListener('click', () => {
+  tableButton.classList.add('active')
+  mapButton.classList.remove('active')
+  chartButton.classList.remove('active')
 })
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
-  attribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(map)
+mapButton.addEventListener('click', () => {
+  tableButton.classList.remove('active')
+  mapButton.classList.add('active')
+  chartButton.classList.remove('active')
+})
+
+chartButton.addEventListener('click', () => {
+  tableButton.classList.remove('active')
+  mapButton.classList.remove('active')
+  chartButton.classList.add('active')
+})

@@ -1,0 +1,42 @@
+package pages
+
+import "github.com/captv89/parOverview/model"
+
+script Leaflet(data []model.GeoParReport) {
+    const map = L.map('map', {
+    center: L.latLng(0, 0),
+    zoom: 3,
+    })
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution:
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(map)
+
+    const markers = L.markerClusterGroup()
+
+    data.forEach((report) => {
+    const marker = L.marker([report.Latitude, report.Longitude])
+        marker.bindPopup(
+            `<b class="text-xl">${report.ShipName}</b>
+            <br><b>Vessel Type: </b>${report.ShipType}
+            <br><b>Date: </b>${report.Date}
+            <br><b>Area: </b>${report.Area}
+            <br><b>Incident Details: </b> ${report.IncidentDetails}
+            <br><b>Consequences For Crew: </b>${report.Consequences}
+            <br><b>Action By Crew: </b>${report.ActionTakenByShip}
+            <br><b>Coastal State Action Taken: </b> ${report.CoastalStateActionTaken}`
+        )
+        markers.addLayer(marker)
+
+        map.addLayer(markers)
+    })
+}
+
+templ MapComponent(data []model.GeoParReport) {
+	<div class="h-full">
+		<div id="map" class="w-full h-full z-40"></div>
+	</div>
+	@Leaflet(data)
+}

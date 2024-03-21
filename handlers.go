@@ -3,7 +3,9 @@ package main
 import (
 	"log/slog"
 	"net/http"
+	"time"
 
+	"github.com/captv89/parOverview/data"
 	"github.com/captv89/parOverview/templates"
 	"github.com/captv89/parOverview/templates/pages"
 
@@ -13,7 +15,6 @@ import (
 
 // indexViewHandler handles a view for the index page.
 func indexViewHandler(c echo.Context) error {
-
 	// Set the response content type to HTML.
 	c.Response().Header().Set(echo.HeaderContentType, echo.MIMETextHTML)
 
@@ -24,7 +25,7 @@ func indexViewHandler(c echo.Context) error {
 	)
 
 	// Define template body content.
-	bodyContent := pages.BodyContent(
+	bodyContent := pages.IndexBodyContent(
 		"Welcome to example!",                // define h1 text
 		"You're here because it worked out.", // define p text
 	)
@@ -37,7 +38,35 @@ func indexViewHandler(c echo.Context) error {
 	)
 
 	return htmx.NewResponse().RenderTempl(c.Request().Context(), c.Response().Writer, indexTemplate)
+}
 
+// tabularViewHandler handles a view for the index page.
+func tabularViewHandler(c echo.Context) error {
+	// Set the response content type to HTML.
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMETextHTML)
+
+	// Define template meta tags.
+	metaTags := pages.MetaTags(
+		"gowebly, htmx example page, go with htmx",               // define meta keywords
+		"Welcome to example! You're here because it worked out.", // define meta description
+	)
+
+	d := data.LoadData("data/sample.json")
+
+	// Define template body content.
+	bodyContent := pages.TabularBody(d)
+
+	// Define template layout for index page.
+	indexTemplate := templates.Layout(
+		"Tabular!",  // define title text
+		metaTags,    // define meta tags
+		bodyContent, // define body content
+	)
+
+	// Sleep for 2 seconds to simulate a slow server response.
+	time.Sleep(2 * time.Second)
+
+	return htmx.NewResponse().RenderTempl(c.Request().Context(), c.Response().Writer, indexTemplate)
 }
 
 // showContentAPIHandler handles an API endpoint to show content.

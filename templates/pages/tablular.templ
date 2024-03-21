@@ -1,0 +1,35 @@
+package pages
+
+import "github.com/captv89/parOverview/model"
+import "fmt"
+
+templ TabularBody(data []model.ParReport) {
+	<div class="overflow-x-auto">
+		<table class="table">
+			<!-- head -->
+			<thead>
+				<tr>
+					<th></th>
+					<th>Name</th>
+					<th>Job</th>
+					<th>Favorite Color</th>
+				</tr>
+			</thead>
+			<tbody>
+				for i, r := range data {
+					<tr>
+						<th>{ fmt.Sprintf("%v",i+1) }</th>
+						<td>{ r.Date }</td>
+						<td>{ r.ShipName }</td>
+						<td>{ r.ShipType }</td>
+						<td>{ r.IMONo }</td>
+						<td>{ r.Area }</td>
+						<td>{ r.Latitude }</td>
+						<td>{ r.Longitude }</td>
+						<td>{ r.IncidentDetails }</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+}

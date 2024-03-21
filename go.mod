@@ -3,7 +3,7 @@ module github.com/captv89/parOverview
 go 1.22.0
 
 require (
-	github.com/a-h/templ v0.2.636
+	github.com/a-h/templ v0.2.639
 	github.com/angelofallars/htmx-go v0.5.0
 	github.com/gowebly/helpers v0.3.0
 	github.com/labstack/echo/v4 v4.11.4

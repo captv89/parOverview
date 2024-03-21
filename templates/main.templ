@@ -1,7 +1,5 @@
 package templates
 
-import "github.com/captv89/parOverview/templates/pages"
-
 templ Layout(title string, metaTags, bodyContent templ.Component) {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -9,7 +7,7 @@ templ Layout(title string, metaTags, bodyContent templ.Component) {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-			<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:*; img-src 'self' data:*;"/>
+			// <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self' ws://localhost:*; img-src 'self' data:*;"/>
 			<meta name="theme-color" content="#FEFEF5"/>
 			<title>{ title }</title>
 			@metaTags
@@ -24,8 +22,12 @@ templ Layout(title string, metaTags, bodyContent templ.Component) {
 			<link rel="icon" href="/static/favicon.png" sizes="any"/>
 			<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
 			<link href="/static/styles.css" rel="stylesheet"/>
+			<link
+				rel="stylesheet"
+				href="/static/leaflet.css"
+			/>
 		</head>
-		<body onload={ pages.BodyScripts() }>
+		<body>
 			@bodyContent
 			<script src="/static/scripts.js"></script>
 		</body>

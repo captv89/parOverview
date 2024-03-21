@@ -1,7 +1,6 @@
 package pages
 
 // MetaTags defines meta tags.
-
 templ MetaTags(keywords, description string) {
 	<meta name="keywords" content={ keywords }/>
 	<meta name="description" content={ description }/>
@@ -14,43 +13,50 @@ css styledTextStyles() {
 }
 
 // BodyContent defines HTML content.
-
-templ BodyContent(h1, text string) {
-	<div id="app">
-		<div>
-			<a href="https://gowebly.org" target="_blank">
-				<img src="/static/images/gowebly.svg" class="gowebly logo" alt="Gowebly logo"/>
-			</a>
-			<h1>Go + Templ + htmx</h1>
-			<p class={ styledTextStyles() }>
-				You're using <strong>Templ</strong> package to generate HTML content!
-				<br/>
-				Edit this styled text in the <code>./templates/pages/index.templ</code> file.
-			</p>
-			<div class="content">
-				<button hx-get="/api/hello-world" hx-target="#htmx-result">Hello, World!</button>
-				<div id="htmx-result"></div>
+templ IndexBodyContent(h1, text string) {
+	<div id="app" class="flex flex-col h-screen justify-between">
+		<div class="navbar bg-base-100">
+			<a class="btn btn-ghost text-xl">PAR Reports</a>
+		</div>
+		<div id="main" class="grow flex justify-center items-center">
+			<span id="loader" class="htmx-indicator ">
+				<img src="/static/images/puff.svg"/>
+			</span>
+			<div id="content" class="grow h-auto mb-20 overflow-auto">
+				<div class="h-full">
+					<div id="map" class="w-full h-full"></div>
+				</div>
 			</div>
-			<p class="read-the-docs">
-				The Gowebly project is a next-generation CLI tool that makes it easy to create
-				<br/>
-				amazing web applications with Go on the backend, using htmx & hyperscript
-				<br/>
-				and the most popular CSS frameworks on the frontend.
-			</p>
-			<p class="read-the-docs">
-				<a href="https://gowebly.org" target="_blank">Documentation</a> &sdot;
-				<a href="https://github.com/gowebly/gowebly" target="_blank">GitHub</a>
-			</p>
+		</div>
+		<div class="btm-nav">
+			<button
+				id="table-button"
+				hx-get="/table"
+				hx-trigger="click"
+				hx-target="#content"
+				hx-indicator="#loader"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 3H4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1zM9 9H5V5h4v4zm5 2h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1zm1-6h4v4h-4V5zM3 20a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v6zm2-5h4v4H5v-4zm8 5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v6zm2-5h4v4h-4v-4z"></path></svg>
+			</button>
+			<button
+				class="active"
+				id="map-button"
+				hx-get="/map"
+				hx-trigger="click"
+				hx-target="#content"
+				hx-indicator="#loader"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24"><path d="m9 6.882-7-3.5v13.236l7 3.5 6-3 7 3.5V7.382l-7-3.5-6 3zM15 15l-6 3V9l6-3v9z"></path></svg>
+			</button>
+			<button
+				id="chart-button"
+				hx-get="/chart"
+				hx-trigger="click"
+				hx-target="#content"
+				hx-indicator="#loader"
+			>
+				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+			</button>
 		</div>
 	</div>
-}
-
-// BodyScripts defines JavaScript code.
-
-script BodyScripts() {
-	console.log(
-		"You're using Templ package to generate HTML content!",
-		"Edit this JavaScript code in the `./templates/pages/index.templ` file.",
-	);
 }

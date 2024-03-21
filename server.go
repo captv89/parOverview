@@ -20,29 +20,42 @@ func runServer() error {
 	if err != nil {
 		return err
 	}
+	host := gowebly.Getenv("BACKEND_HOST", "localhost")
 
 	// Create a new Echo server.
-	echo := echo.New()
+	e := echo.New()
 
 	// Add Echo middlewares.
-	echo.Use(middleware.Logger())
+	e.Use(middleware.Logger())
+	e.Use(middleware.Secure())
+	e.Use(middleware.CORS())
+	e.Use(middleware.CSRF())
+	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{
+		Level: 5,
+	}))
+	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
+	e.Use(middleware.Recover())
 
 	// Handle static files.
-	echo.Static("/static", "./static")
+	e.Static("/static", "./static")
 
 	// Handle index page view.
-	echo.GET("/", indexViewHandler)
+	e.GET("/", indexViewHandler)
+
+	// Handle index page view.
+	e.GET("/table", tabularViewHandler)
 
 	// Handle API endpoints.
-	echo.GET("/api/hello-world", showContentAPIHandler)
+	e.GET("/api/hello-world", showContentAPIHandler)
 
 	// Create a new server instance with options from environment variables.
 	// For more information, see https://blog.cloudflare.com/the-complete-guide-to-golang-net-http-timeouts/
 	server := http.Server{
-		Addr:         fmt.Sprintf(":%d", port),
-		Handler:      echo, // handle all Echo routes
+		Addr:         fmt.Sprintf("%v:%d", host, port),
+		Handler:      e, // handle all Echo routes
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  15 * time.Second,
 	}
 
 	// Send log message.

@@ -18,9 +18,9 @@ templ IndexBodyContent(h1, text string) {
 		<div class="navbar bg-base-100">
 			<a class="btn btn-ghost text-xl">PAR Reports</a>
 		</div>
-		<div id="main" class="grow flex justify-center items-center">
-			<span id="loader" class="htmx-indicator ">
-				<img src="/static/images/puff.svg"/>
+		<div id="main" class="grow">
+			<span id="loader" class="htmx-indicator absolute top-1/2 left-1/2">
+				<img src="/static/images/puff.svg" class="w-16 h-16" alt="Loading"/>
 			</span>
 			<div id="content" class="grow h-auto mb-20 overflow-auto">
 				<div class="h-full">

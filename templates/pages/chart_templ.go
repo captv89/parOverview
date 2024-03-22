@@ -10,7 +10,17 @@ import "context"
 import "io"
 import "bytes"
 
-func ChartComponent() templ.Component {
+func ChartScript(title string, data map[string]int) templ.ComponentScript {
+	return templ.ComponentScript{
+		Name: `__templ_ChartScript_a2ba`,
+		Function: `function __templ_ChartScript_a2ba(title, data){const myChart = viewChart(data, title)
+}`,
+		Call:       templ.SafeScript(`__templ_ChartScript_a2ba`, title, data),
+		CallInline: templ.SafeScriptInline(`__templ_ChartScript_a2ba`, title, data),
+	}
+}
+
+func updateChartData() templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,7 +33,67 @@ func ChartComponent() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h1>Chart</h1></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script>\n\n    function viewChart(data, title){\n        const ctx = document.getElementById('myChart');\n        return new Chart(ctx, {\n        type: 'bar',\n        \n        data: {\n        labels: Object.keys(data),\n        datasets: [{\n            label: 'Incidents',\n            data: Object.values(data),\n            borderWidth: 1\n        }]\n        },\n        options: {\n            plugins: {\n                title: {\n                    display: true,\n                    text: title\n                }\n            },\n        scales: {\n            y: {\n            beginAtZero: true\n            }\n        }\n        }\n    });               \n    }\n\n    document.body.addEventListener(\"updateChartData\", function(evt){\n        console.log(\"updateChartData event received\")\n        console.log(evt)\n\n        const data = evt.detail.data\n        const title = evt.detail.title\n\n        let existingChart = Chart.getChart(\"myChart\")\n        if (existingChart) {\n            existingChart.destroy()\n        }\n\n        var updatedChart = viewChart(data, title)\n    })\n    </script>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func ChartComponent(title string, data map[string]int) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-5/6 flex justify-center items-center\"><canvas id=\"myChart\"></canvas></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = updateChartData().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = ChartScript(title, data).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func ChartBody(chart templ.Component) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var3 == nil {
+			templ_7745c5c3_Var3 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"ml-10\"><h1 class=\"text-lg\">Incidents</h1><input id=\"byYear\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" checked hx-get=\"/api/incidents?by=year\"> <label class=\"pr-6\" for=\"byYear\">By Year</label> <input id=\"byMonth\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=month\"> <label class=\"pr-6\" for=\"byMonth\">By Month</label> <input id=\"byArea\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=area\"> <label class=\"pr-6\" for=\"byArea\">By Area</label> <input id=\"byShipType\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=shipType\"> <label class=\"pr-6\" for=\"byShipType\">By ShipType</label></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = chart.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -93,3 +93,124 @@ func LoadGeoData(data []model.ParReport) []model.GeoParReport {
 
 	return reports
 }
+
+// IncidentByYear returns the number of incidents by year.
+func IncidentByYear(data []model.ParReport) map[string]int {
+	incidents := make(map[string]int)
+
+	for i := 0; i < len(data); i++ {
+		report := data[i]
+		year := report.Date[:4]
+
+		// Check if the year is already in the map
+		if _, ok := incidents[year]; ok {
+			incidents[year]++
+		} else {
+			incidents[year] = 1
+		}
+	}
+
+	return incidents
+}
+
+// IncidentByArea returns the number of incidents by area.
+func IncidentByArea(data []model.ParReport) map[string]int {
+	incidents := make(map[string]int)
+
+	for i := 0; i < len(data); i++ {
+		report := data[i]
+
+		// Check if the area is already in the map
+		if _, ok := incidents[report.Area]; ok {
+			incidents[report.Area]++
+		} else {
+			incidents[report.Area] = 1
+		}
+	}
+
+	return incidents
+}
+
+// IncidentByShipType returns the number of incidents by ship type.
+func IncidentByShipType(data []model.ParReport) map[string]int {
+	incidents := make(map[string]int)
+
+	for i := 0; i < len(data); i++ {
+		report := data[i]
+
+		// Check if the ship type is already in the map
+		if _, ok := incidents[report.ShipType]; ok {
+			incidents[report.ShipType]++
+		} else {
+			incidents[report.ShipType] = 1
+		}
+	}
+
+	return incidents
+}
+
+// IncidentByMonth returns the number of incidents by month.
+func IncidentByMonth(data []model.ParReport) map[string]int {
+	incidents := make(map[string]int)
+
+	for i := 0; i < len(data); i++ {
+		report := data[i]
+		month := report.Date[5:7]
+		month = GetMonthNames(month)
+
+		// Check if the month is already in the map
+		if _, ok := incidents[month]; ok {
+			incidents[month]++
+		} else {
+			incidents[month] = 1
+		}
+	}
+
+	return incidents
+}
+
+// IncidentByMonthYear returns the number of incidents by month and year.
+func IncidentByMonthYear(data []model.ParReport) map[string]map[string]int {
+	incidents := make(map[string]map[string]int)
+
+	for i := 0; i < len(data); i++ {
+		report := data[i]
+		month := report.Date[5:7]
+		month = GetMonthNames(month)
+		year := report.Date[:4]
+
+		// Check if the month is already in the map
+		if _, ok := incidents[year]; ok {
+			if _, ok := incidents[year][month]; ok {
+				incidents[year][month]++
+			} else {
+				incidents[year][month] = 1
+			}
+		} else {
+			incidents[year] = make(map[string]int)
+			incidents[year][month] = 1
+		}
+	}
+
+	return incidents
+}
+
+// GetMonthNames returns the month names.
+func GetMonthNames(num string) string {
+	months := map[string]string{
+		"01": "January",
+		"02": "February",
+		"03": "March",
+		"04": "April",
+		"05": "May",
+		"06": "June",
+		"07": "July",
+		"08": "August",
+		"09": "September",
+		"10": "October",
+		"11": "November",
+		"12": "December",
+	}
+
+	return months[num]
+}

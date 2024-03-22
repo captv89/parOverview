@@ -52,6 +52,11 @@ func runServer() error {
 	e.GET("/chart", chartViewHandler)
 
 	// Handle API endpoints.
+
+	// Incidents API
+	e.GET("/api/incidents", incidentsByParamsHandler)
+
+	// Example
 	e.GET("/api/hello-world", showContentAPIHandler)
 
 	// Create a new server instance with options from environment variables.

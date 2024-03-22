@@ -14,17 +14,20 @@ import "github.com/captv89/parOverview/model"
 
 func Leaflet(data []model.GeoParReport) templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_Leaflet_9c73`,
-		Function: `function __templ_Leaflet_9c73(data){const map = L.map('map', {
-    center: L.latLng(0, 0),
+		Name: `__templ_Leaflet_3367`,
+		Function: `function __templ_Leaflet_3367(data){const map = L.map('map', {
+    center: L.latLng(7, 50),
     zoom: 3,
     })
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution:
-        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    }).addTo(map)
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 20,
+	attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'png'}).addTo(map)
+
+    L.tileLayer('https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+	attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'}).addTo(map)
 
     const markers = L.markerClusterGroup()
 
@@ -45,8 +48,8 @@ func Leaflet(data []model.GeoParReport) templ.ComponentScript {
         map.addLayer(markers)
     })
 }`,
-		Call:       templ.SafeScript(`__templ_Leaflet_9c73`, data),
-		CallInline: templ.SafeScriptInline(`__templ_Leaflet_9c73`, data),
+		Call:       templ.SafeScript(`__templ_Leaflet_3367`, data),
+		CallInline: templ.SafeScriptInline(`__templ_Leaflet_3367`, data),
 	}
 }
 

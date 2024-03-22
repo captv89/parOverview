@@ -1,7 +1,102 @@
 package pages
 
-templ ChartComponent() {
-	<div>
-		<h1>Chart</h1>
+script ChartScript(title string, data map[string]int) {
+  const myChart = viewChart(data, title)
+}
+
+templ updateChartData() {
+	<script>
+
+    function viewChart(data, title){
+        const ctx = document.getElementById('myChart');
+        return new Chart(ctx, {
+        type: 'bar',
+        
+        data: {
+        labels: Object.keys(data),
+        datasets: [{
+            label: 'Incidents',
+            data: Object.values(data),
+            borderWidth: 1
+        }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: title
+                }
+            },
+        scales: {
+            y: {
+            beginAtZero: true
+            }
+        }
+        }
+    });               
+    }
+
+    document.body.addEventListener("updateChartData", function(evt){
+        console.log("updateChartData event received")
+        console.log(evt)
+
+        const data = evt.detail.data
+        const title = evt.detail.title
+
+        let existingChart = Chart.getChart("myChart")
+        if (existingChart) {
+            existingChart.destroy()
+        }
+
+        var updatedChart = viewChart(data, title)
+    })
+    </script>
+}
+
+templ ChartComponent(title string, data map[string]int) {
+	<div class="h-5/6 flex justify-center items-center">
+		<canvas id="myChart"></canvas>
 	</div>
+	@updateChartData()
+	@ChartScript(title, data)
+}
+
+templ ChartBody(chart templ.Component) {
+	<div class="ml-10">
+		<h1 class="text-lg">Incidents</h1>
+		<input
+			id="byYear"
+			type="radio"
+			name="radio-2"
+			class="radio radio-primary"
+			checked
+			hx-get="/api/incidents?by=year"
+		/>
+		<label class="pr-6" for="byYear">By Year</label>
+		<input
+			id="byMonth"
+			type="radio"
+			name="radio-2"
+			class="radio radio-primary"
+			hx-get="/api/incidents?by=month"
+		/>
+		<label class="pr-6" for="byMonth">By Month</label>
+		<input
+			id="byArea"
+			type="radio"
+			name="radio-2"
+			class="radio radio-primary"
+			hx-get="/api/incidents?by=area"
+		/>
+		<label class="pr-6" for="byArea">By Area</label>
+		<input
+			id="byShipType"
+			type="radio"
+			name="radio-2"
+			class="radio radio-primary"
+			hx-get="/api/incidents?by=shipType"
+		/>
+		<label class="pr-6" for="byShipType">By ShipType</label>
+	</div>
+	@chart
 }

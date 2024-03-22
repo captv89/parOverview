@@ -1,6 +1,8 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
@@ -103,10 +105,13 @@ func chartViewHandler(c echo.Context) error {
 		"The piracy and armed robbery trends over time of maritime incidents.",
 	)
 
-	// TODO: Load Incident data with analytics.
+	// Data for the chart
+	incidentByYear := data.IncidentByYear(data.ParData)
 
 	// Define template body content.
-	bodyContent := pages.ChartComponent()
+	chart := pages.ChartComponent("Incidents by Year", incidentByYear)
+
+	bodyContent := pages.ChartBody(chart)
 
 	// Define template layout for index page.
 	indexTemplate := templates.Layout(
@@ -137,4 +142,72 @@ func showContentAPIHandler(c echo.Context) error {
 	c.Response().Write([]byte("<p>🎉 Yes, <strong>htmx</strong> is ready to use! (<code>GET /api/hello-world</code>)</p>"))
 
 	return htmx.NewResponse().Write(c.Response().Writer)
+}
+
+// incidentsByParamsHandler handles an API endpoint to get incidents by parameters.
+func incidentsByParamsHandler(c echo.Context) error {
+	// Check, if the current request has a 'HX-Request' header.
+	// For more information, see https://htmx.org/docs/#request-headers
+	if !htmx.IsHTMX(c.Request()) {
+		// If not, return HTTP 400 error.
+		c.Response().WriteHeader(http.StatusBadRequest)
+		slog.Error("request API", "method", c.Request().Method, "status", http.StatusBadRequest, "path", c.Request().URL.Path)
+		return echo.NewHTTPError(http.StatusBadRequest, http.StatusText(http.StatusBadRequest))
+	}
+
+	// Get query parameters from the request.
+	by := c.QueryParam("by")
+
+	// Define a response message.
+	var title string
+	var cdata map[string]int
+
+	switch by {
+	case "year":
+		// Data for the chart
+		cdata = data.IncidentByYear(data.ParData)
+		title = "Incidents by Year"
+	case "month":
+		// Data for the chart
+		cdata = data.IncidentByMonth(data.ParData)
+		title = "Incidents by Month"
+	case "area":
+		// Data for the chart
+		cdata = data.IncidentByArea(data.ParData)
+		title = "Incidents by Area"
+	case "shipType":
+		// Data for the chart
+		cdata = data.IncidentByShipType(data.ParData)
+		title = "Incidents by Ship Type"
+	default:
+		// Data for the chart
+		cdata = data.IncidentByYear(data.ParData)
+		title = "Incidents by Year"
+	}
+
+	// JSON the response data.
+	resData := map[string]interface{}{
+		"title": title,
+		"data":  cdata,
+	}
+
+	resEvent := map[string]interface{}{
+		"updateChartData": resData,
+	}
+
+	// Convert the response map to JSON
+	resJSONData, err := json.Marshal(resEvent)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return c.String(http.StatusInternalServerError, "Internal Server Error")
+	}
+
+	// Convert the JSON bytes to a string
+	resJSONString := string(resJSONData)
+
+	// Write JSON content.
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+	c.Response().Writer.Header().Set("HX-Trigger", resJSONString)
+	// Write JSON content.
+	return c.String(http.StatusOK, "")
 }

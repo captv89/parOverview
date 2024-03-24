@@ -52,7 +52,7 @@ func tabularViewHandler(c echo.Context) error {
 	)
 
 	// Define template body content.
-	bodyContent := pages.TabularBody(data.ParData)
+	bodyContent := pages.TabularBody(data.GeoParData)
 
 	// Define template layout for index page.
 	indexTemplate := templates.Layout(

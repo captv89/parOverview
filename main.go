@@ -10,7 +10,7 @@ import (
 // Main function.
 func main() {
 	// Load data
-	jsonFilePath := "data/full.json"
+	jsonFilePath := os.Getenv("DATA_FILE_PATH")
 	data.ParData = data.LoadData(jsonFilePath)
 	data.GeoParData = data.LoadGeoData(data.ParData)
 

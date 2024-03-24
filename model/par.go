@@ -11,10 +11,10 @@ type ParReport struct {
 	IncidentDetails         string `json:"Incident details"`
 	ConsequencesForCrewEtc  string `json:"Consequences for crew etc"`
 	ActionTakenByMasterCrew string `json:"Action taken by master/crew"`
-	Reported                bool   `json:"Reported?"`
+	Reported                string `json:"Reported?"`
 	ReportedTo              string `json:"Reported to..."`
 	CoastalStateActionTaken string `json:"Coastal State Action Taken"`
-	MSCCirc                 int    `json:"MSC/Circ"`
+	MSCCirc                 string `json:"MSC/Circ"`
 }
 
 type GeoParReport struct {
@@ -28,8 +28,8 @@ type GeoParReport struct {
 	IncidentDetails         string  `json:"IncidentDetails"`
 	ConsequencesForCrewEtc  string  `json:"Consequences"`
 	ActionTakenByMasterCrew string  `json:"ActionTakenByShip"`
-	Reported                bool    `json:"Reported"`
+	Reported                string  `json:"Reported"`
 	ReportedTo              string  `json:"ReportedTo"`
 	CoastalStateActionTaken string  `json:"CoastalStateActionTaken"`
-	MSCCirc                 int     `json:"MSCirc"`
+	MSCCirc                 string  `json:"MSCirc"`
 }

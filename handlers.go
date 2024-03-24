@@ -160,7 +160,7 @@ func incidentsByParamsHandler(c echo.Context) error {
 
 	// Define a response message.
 	var title string
-	var cdata map[string]int
+	var cdata interface{}
 
 	switch by {
 	case "year":
@@ -169,7 +169,7 @@ func incidentsByParamsHandler(c echo.Context) error {
 		title = "Incidents by Year"
 	case "month":
 		// Data for the chart
-		cdata = data.IncidentByMonth(data.ParData)
+		cdata = data.IncidentByMonthYear(data.ParData)
 		title = "Incidents by Month"
 	case "area":
 		// Data for the chart

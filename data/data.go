@@ -1,6 +1,7 @@
 package data
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"io"
 	"log/slog"
@@ -41,6 +42,23 @@ func parseCoordinates(coord string) float64 {
 func LoadData(filePath string) []model.ParReport {
 	var reports []model.ParReport
 
+	dataType := os.Getenv("DATA_TYPE")
+	switch dataType {
+	case "json":
+		reports = LoadFromJSON(filePath)
+	case "csv":
+		reports = LoadFromCSV(filePath)
+	default:
+		slog.Error("Invalid data type", "details", "Data type must be either 'json' or 'csv'")
+	}
+
+	return reports
+}
+
+// LoadJsonData loads data from a file.
+func LoadFromJSON(filePath string) []model.ParReport {
+	var reports []model.ParReport
+
 	// Read the json file
 	jsonFile, err := os.Open(filePath)
 	if err != nil {
@@ -59,6 +77,55 @@ func LoadData(filePath string) []model.ParReport {
 	err = json.Unmarshal(byteValue, &reports)
 	if err != nil {
 		slog.Error("Failed to unmarshal file", "details", err.Error())
+	}
+
+	return reports
+}
+
+// LoadCsvData loads data from a file.
+func LoadFromCSV(filePath string) []model.ParReport {
+	var reports []model.ParReport
+
+	// Read the csv file
+	csvFile, err := os.Open(filePath)
+	if err != nil {
+		slog.Error("Failed to open file", "details", err.Error())
+	}
+	defer csvFile.Close()
+
+	// Read the csv file
+	// CSV Reader
+	r := csv.NewReader(csvFile)
+
+	records, err := r.ReadAll()
+	if err != nil {
+		slog.Error("Failed to read file", "details", err.Error())
+	}
+
+	// Parse the records
+	for i, record := range records {
+		if i == 0 {
+			continue
+		}
+
+		slog.Info("Record", "record", record)
+
+		reports = append(reports, model.ParReport{
+			Date:                    record[0],
+			ShipName:                record[1],
+			ShipType:                record[2],
+			IMONo:                   record[3],
+			Area:                    record[6],
+			Latitude:                record[4],
+			Longitude:               record[5],
+			IncidentDetails:         record[7],
+			ConsequencesForCrewEtc:  record[8],
+			ActionTakenByMasterCrew: record[9],
+			Reported:                record[10],
+			ReportedTo:              record[11],
+			CoastalStateActionTaken: record[12],
+			MSCCirc:                 record[13],
+		})
 	}
 
 	return reports

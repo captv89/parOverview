@@ -11,8 +11,9 @@ import (
 func main() {
 	// Load data
 	jsonFilePath := os.Getenv("DATA_FILE_PATH")
-	data.ParData = data.LoadData(jsonFilePath)
-	data.GeoParData = data.LoadGeoData(data.ParData)
+	parData := data.LoadData(jsonFilePath)
+	data.CleanParData = data.CleanData(parData)
+	data.GeoParData = data.LoadGeoData(parData)
 
 	// Run your server.
 	if err := runServer(); err != nil {

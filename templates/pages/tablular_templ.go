@@ -12,24 +12,24 @@ import "bytes"
 
 import "github.com/captv89/parOverview/model"
 
-func tabularScript(data []model.GeoParReport) templ.ComponentScript {
+func tabularScript(data []model.CleanParReport) templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_tabularScript_d880`,
-		Function: `function __templ_tabularScript_d880(data){console.log(data);
+		Name: `__templ_tabularScript_27fd`,
+		Function: `function __templ_tabularScript_27fd(data){console.log(data);
 	const gridOptions = {
 		rowData: data,
 		pagination: true,
 		paginationPageSize: 500,
 		paginationPageSizeSelector: [200, 500, 1000],
 		columnDefs: [
-			{ headerName: "Date", field: "Date", sortable: true, filter: true, floatingFilter: true },
+			{ headerName: "Date", field: "Date", sortable: true, sort: "desc", filter: true, floatingFilter: true, maxWidth:150 },
 			{ headerName: "Ship Name", field: "ShipName", sortable: true, filter: true, floatingFilter: true },
 			{ headerName: "Ship Type", field: "ShipType", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "IMO", field: "IMONo", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "Area", field: "Area", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "Latitude", field: "Latitude", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "Longitude", field: "Longitude", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "IncidentDetails", field: "IncidentDetails", sortable: true, filter: true, floatingFilter: true, autoHeight:true, wrapText:true },
+			{ headerName: "IMO", field: "IMO", sortable: true, filter: true, floatingFilter: true, maxWidth:150 },
+			{ headerName: "Area", field: "Area", sortable: true, filter: true, floatingFilter: true, maxWidth:180 },
+			{ headerName: "Latitude", field: "Latitude", sortable: true, filter: true, floatingFilter: true, maxWidth:100 },
+			{ headerName: "Longitude", field: "Longitude", sortable: true, filter: true, floatingFilter: true, maxWidth:100 },
+			{ headerName: "IncidentDetails", field: "IncidentDetails", sortable: true, filter: true, floatingFilter: true, autoHeight:true, wrapText:true, flex:1 },
 		],
 	};
 
@@ -37,12 +37,12 @@ func tabularScript(data []model.GeoParReport) templ.ComponentScript {
 	const myGridElement = document.querySelector('#myGrid');
 	agGrid.createGrid(myGridElement, gridOptions);
 }`,
-		Call:       templ.SafeScript(`__templ_tabularScript_d880`, data),
-		CallInline: templ.SafeScriptInline(`__templ_tabularScript_d880`, data),
+		Call:       templ.SafeScript(`__templ_tabularScript_27fd`, data),
+		CallInline: templ.SafeScriptInline(`__templ_tabularScript_27fd`, data),
 	}
 }
 
-func TabularBody(data []model.GeoParReport) templ.Component {
+func TabularBody(data []model.CleanParReport) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

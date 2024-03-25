@@ -89,7 +89,7 @@ func ChartBody(chart templ.Component) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"ml-10\"><h1 class=\"text-lg\">Incidents</h1><input id=\"byYear\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" checked hx-get=\"/api/incidents?by=year\"> <label class=\"pr-6\" for=\"byYear\">By Year</label> <input id=\"byMonth\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=month\"> <label class=\"pr-6\" for=\"byMonth\">By Month</label> <input id=\"byArea\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=area\"> <label class=\"pr-6\" for=\"byArea\">By Area</label> <input id=\"byShipType\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=shipType\"> <label class=\"pr-6\" for=\"byShipType\">By ShipType</label></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"ml-10\"><h1 class=\"text-lg\">Incidents</h1><input id=\"byYear\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" checked hx-get=\"/api/incidents?by=year\"> <label class=\"pr-6\" for=\"byYear\">By Year</label> <input id=\"byArea\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=area\"> <label class=\"pr-6\" for=\"byArea\">By Area</label> <input id=\"byShipType\" type=\"radio\" name=\"radio-2\" class=\"radio radio-primary\" hx-get=\"/api/incidents?by=shipType\"> <label class=\"pr-6\" for=\"byShipType\">By ShipType</label></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

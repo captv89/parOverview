@@ -52,7 +52,7 @@ func tabularViewHandler(c echo.Context) error {
 	)
 
 	// Define template body content.
-	bodyContent := pages.TabularBody(data.GeoParData)
+	bodyContent := pages.TabularBody(data.CleanParData)
 
 	// Define template layout for index page.
 	indexTemplate := templates.Layout(
@@ -106,7 +106,7 @@ func chartViewHandler(c echo.Context) error {
 	)
 
 	// Data for the chart
-	incidentByYear := data.IncidentByYear(data.ParData)
+	incidentByYear := data.IncidentByYear(data.CleanParData)
 
 	// Define template body content.
 	chart := pages.ChartComponent("Incidents by Year", incidentByYear)
@@ -165,23 +165,23 @@ func incidentsByParamsHandler(c echo.Context) error {
 	switch by {
 	case "year":
 		// Data for the chart
-		cdata = data.IncidentByYear(data.ParData)
+		cdata = data.IncidentByYear(data.CleanParData)
 		title = "Incidents by Year"
 	case "month":
 		// Data for the chart
-		cdata = data.IncidentByMonthYear(data.ParData)
+		cdata = data.IncidentByMonthYear(data.CleanParData)
 		title = "Incidents by Month"
 	case "area":
 		// Data for the chart
-		cdata = data.IncidentByArea(data.ParData)
+		cdata = data.IncidentByArea(data.CleanParData)
 		title = "Incidents by Area"
 	case "shipType":
 		// Data for the chart
-		cdata = data.IncidentByShipType(data.ParData)
+		cdata = data.IncidentByShipType(data.CleanParData)
 		title = "Incidents by Ship Type"
 	default:
 		// Data for the chart
-		cdata = data.IncidentByYear(data.ParData)
+		cdata = data.IncidentByYear(data.CleanParData)
 		title = "Incidents by Year"
 	}
 

@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	ParData    []model.ParReport
+	CleanParData    []model.CleanParReport
 	GeoParData []model.GeoParReport
 )
 
@@ -140,6 +140,10 @@ func LoadGeoData(data []model.ParReport) []model.GeoParReport {
 		lat := parseCoordinates(report.Latitude)
 		lon := parseCoordinates(report.Longitude)
 
+		if lat == 0 && lon == 0 {
+			continue
+		}
+
 		reports = append(reports, model.GeoParReport{
 			Date:                    report.Date,
 			ShipName:                report.ShipName,
@@ -161,8 +165,36 @@ func LoadGeoData(data []model.ParReport) []model.GeoParReport {
 	return reports
 }
 
+// CleanData cleans the data.
+func CleanData(data []model.ParReport) []model.CleanParReport {
+	var reports []model.CleanParReport
+
+	for i := 0; i < len(data); i++ {
+		report := data[i]
+
+		reports = append(reports, model.CleanParReport{
+			Date:                    report.Date,
+			ShipName:                report.ShipName,
+			ShipType:                report.ShipType,
+			IMONo:                   report.IMONo,
+			Area:                    report.Area,
+			Latitude:                report.Latitude,
+			Longitude:               report.Longitude,
+			IncidentDetails:         report.IncidentDetails,
+			ConsequencesForCrewEtc:  report.ConsequencesForCrewEtc,
+			ActionTakenByMasterCrew: report.ActionTakenByMasterCrew,
+			Reported:                report.Reported,
+			ReportedTo:              report.ReportedTo,
+			CoastalStateActionTaken: report.CoastalStateActionTaken,
+			MSCCirc:                 report.MSCCirc,
+		})
+	}
+
+	return reports
+}
+
 // IncidentByYear returns the number of incidents by year.
-func IncidentByYear(data []model.ParReport) map[string]int {
+func IncidentByYear(data []model.CleanParReport) map[string]int {
 	incidents := make(map[string]int)
 
 	for i := 0; i < len(data); i++ {
@@ -181,7 +213,7 @@ func IncidentByYear(data []model.ParReport) map[string]int {
 }
 
 // IncidentByArea returns the number of incidents by area.
-func IncidentByArea(data []model.ParReport) map[string]int {
+func IncidentByArea(data []model.CleanParReport) map[string]int {
 	incidents := make(map[string]int)
 
 	for i := 0; i < len(data); i++ {
@@ -199,7 +231,7 @@ func IncidentByArea(data []model.ParReport) map[string]int {
 }
 
 // IncidentByShipType returns the number of incidents by ship type.
-func IncidentByShipType(data []model.ParReport) map[string]int {
+func IncidentByShipType(data []model.CleanParReport) map[string]int {
 	incidents := make(map[string]int)
 
 	for i := 0; i < len(data); i++ {
@@ -217,7 +249,7 @@ func IncidentByShipType(data []model.ParReport) map[string]int {
 }
 
 // IncidentByMonth returns the number of incidents by month.
-func IncidentByMonth(data []model.ParReport) map[string]int {
+func IncidentByMonth(data []model.CleanParReport) map[string]int {
 	incidents := make(map[string]int)
 
 	for i := 0; i < len(data); i++ {
@@ -237,7 +269,7 @@ func IncidentByMonth(data []model.ParReport) map[string]int {
 }
 
 // IncidentByMonthYear returns the number of incidents by month and year.
-func IncidentByMonthYear(data []model.ParReport) map[string]map[string]int {
+func IncidentByMonthYear(data []model.CleanParReport) map[string]map[string]int {
 	incidents := make(map[string]map[string]int)
 
 	for i := 0; i < len(data); i++ {

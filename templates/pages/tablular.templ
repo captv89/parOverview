@@ -2,7 +2,7 @@ package pages
 
 import "github.com/captv89/parOverview/model"
 
-script tabularScript(data []model.GeoParReport) {
+script tabularScript(data []model.CleanParReport) {
 	console.log(data);
 	const gridOptions = {
 		rowData: data,
@@ -10,14 +10,14 @@ script tabularScript(data []model.GeoParReport) {
 		paginationPageSize: 500,
 		paginationPageSizeSelector: [200, 500, 1000],
 		columnDefs: [
-			{ headerName: "Date", field: "Date", sortable: true, filter: true, floatingFilter: true },
+			{ headerName: "Date", field: "Date", sortable: true, sort: "desc", filter: true, floatingFilter: true, maxWidth:150 },
 			{ headerName: "Ship Name", field: "ShipName", sortable: true, filter: true, floatingFilter: true },
 			{ headerName: "Ship Type", field: "ShipType", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "IMO", field: "IMONo", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "Area", field: "Area", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "Latitude", field: "Latitude", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "Longitude", field: "Longitude", sortable: true, filter: true, floatingFilter: true },
-			{ headerName: "IncidentDetails", field: "IncidentDetails", sortable: true, filter: true, floatingFilter: true, autoHeight:true, wrapText:true },
+			{ headerName: "IMO", field: "IMO", sortable: true, filter: true, floatingFilter: true, maxWidth:150 },
+			{ headerName: "Area", field: "Area", sortable: true, filter: true, floatingFilter: true, maxWidth:180 },
+			{ headerName: "Latitude", field: "Latitude", sortable: true, filter: true, floatingFilter: true, maxWidth:100 },
+			{ headerName: "Longitude", field: "Longitude", sortable: true, filter: true, floatingFilter: true, maxWidth:100 },
+			{ headerName: "IncidentDetails", field: "IncidentDetails", sortable: true, filter: true, floatingFilter: true, autoHeight:true, wrapText:true, flex:1 },
 		],
 	};
 
@@ -26,7 +26,7 @@ script tabularScript(data []model.GeoParReport) {
 	agGrid.createGrid(myGridElement, gridOptions);
 }
 
-templ TabularBody(data []model.GeoParReport) {
+templ TabularBody(data []model.CleanParReport) {
 	<div class="h-full">
 		<div id="myGrid" class="ag-theme-quartz-dark h-5/6 w-full"></div>
 	</div>

@@ -14,8 +14,8 @@ import "github.com/captv89/parOverview/model"
 
 func tabularScript(data []model.CleanParReport) templ.ComponentScript {
 	return templ.ComponentScript{
-		Name: `__templ_tabularScript_27fd`,
-		Function: `function __templ_tabularScript_27fd(data){console.log(data);
+		Name: `__templ_tabularScript_d738`,
+		Function: `function __templ_tabularScript_d738(data){// console.log(data);
 	const gridOptions = {
 		rowData: data,
 		pagination: true,
@@ -37,8 +37,8 @@ func tabularScript(data []model.CleanParReport) templ.ComponentScript {
 	const myGridElement = document.querySelector('#myGrid');
 	agGrid.createGrid(myGridElement, gridOptions);
 }`,
-		Call:       templ.SafeScript(`__templ_tabularScript_27fd`, data),
-		CallInline: templ.SafeScriptInline(`__templ_tabularScript_27fd`, data),
+		Call:       templ.SafeScript(`__templ_tabularScript_d738`, data),
+		CallInline: templ.SafeScriptInline(`__templ_tabularScript_d738`, data),
 	}
 }
 

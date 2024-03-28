@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  assets:
+    cmds:
+      - bun run build
+
+  templ:
+    cmds:
+      - go run github.com/a-h/templ/cmd/templ@latest generate
+
+  run:
+    deps: [assets, templ]
+    cmds:
+      - go run *.go
+
+  build:
+    deps: [assets, templ]
+    cmds:
+      - go build -o bin/app *.go
+      - cp -rf static bin/
+      - cp -f data/dataset.json bin/data/
+      - cp -f .env bin/

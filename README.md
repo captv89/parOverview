@@ -3,7 +3,8 @@
 This dataset contains information on maritime piracy and armed robbery incidents from 1990 to present. The dataset is compiled from the International Maritime Bureau's Piracy Reporting Centre (IMB PRC) and other sources submitting their records to IMO.
 
 ## Demo
-![demo-gif](assets/demo.gif)
+
+![](assets/demo.gif)
 
 ## Tech Stack
 - Leaflet
